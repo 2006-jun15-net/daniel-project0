@@ -1,5 +1,6 @@
 ﻿using System;
-using UtilityLibraries;
+using Library;
+using Project0.Library.models;
 
 namespace Projec0.app
 {
@@ -8,7 +9,8 @@ namespace Projec0.app
         static void Main(string[] args)
         {
             Console.WriteLine("it will compile");
-            Library.printHello();
+            
         }
     }
 }
+ 
