@@ -1,4 +1,5 @@
 ﻿using System;
+using UtilityLibraries;
 
 namespace Projec0.app
 {
@@ -6,7 +7,8 @@ namespace Projec0.app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("it will compile");
+            Library.printHello();
         }
     }
 }
