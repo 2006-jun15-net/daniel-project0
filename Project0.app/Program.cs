@@ -10,13 +10,14 @@ namespace Projec0.app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nWhat is your name? ");
+            Console.WriteLine("\nEnter Customer Name: ");
             var name = Console.ReadLine();
             var date = DateTime.Now;
             Console.WriteLine($"\nHello, {name}, on {date:d} at {date:t}!");
             Console.Write("\nPress any key to exit...");
             Console.ReadKey(true);
 
+           
             
 
 
@@ -49,7 +50,7 @@ namespace Projec0.app
                 }
             };
 
-            var location1 = new Location { Name = "North", Inventory= inventory1 };
+            new Location { Name = "North", Inventory = inventory1 };
         }
     }
 }

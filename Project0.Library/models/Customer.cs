@@ -10,5 +10,8 @@ namespace Project0.Library.models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        //this will bring up order history for the customer
+        public void CustomerLog() { }
+
     }
 }
