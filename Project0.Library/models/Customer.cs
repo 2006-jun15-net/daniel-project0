@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Project0.Library.models
 {
-    class Customer
+    public class Customer
     {
 
-        private string firstName { get; set; }
-        private string lastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
     }
 }
