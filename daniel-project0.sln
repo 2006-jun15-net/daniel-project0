@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.Library", "Project
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.app", "Project0.app\Project0.app.csproj", "{9EBE6163-3B82-49E9-B6B1-77D8F27F87BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project0.test", "Project0.test\Project0.test.csproj", "{8B7665FF-6B03-467C-9B9A-F9020AFEF58E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.test", "Project0.test\Project0.test.csproj", "{8B7665FF-6B03-467C-9B9A-F9020AFEF58E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project0.save", "Project0.save", "{FD75F053-B602-4D92-8991-D938F0FEAA5E}"
+	ProjectSection(SolutionItems) = preProject
+		Inventory1.txt = Inventory1.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
