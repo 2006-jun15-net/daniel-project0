@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.test", "Project0.t
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project0.save", "Project0.save", "{FD75F053-B602-4D92-8991-D938F0FEAA5E}"
 	ProjectSection(SolutionItems) = preProject
+		Backup.txt = Backup.txt
+		Customers.txt = Customers.txt
 		Inventory1.txt = Inventory1.txt
 	EndProjectSection
 EndProject

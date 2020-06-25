@@ -1,0 +1,22 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Smith",
+    "FullName": "John Smith"
+  },
+  {
+    "FirstName": "May",
+    "LastName": "Flower",
+    "FullName": "May Flower"
+  },
+  {
+    "FirstName": "Daniel",
+    "LastName": "Aasa",
+    "FullName": "Daniel Aasa"
+  },
+  {
+    "FirstName": "Mat",
+    "LastName": "Flex",
+    "FullName": "Mat Flex"
+  }
+]

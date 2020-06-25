@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Json;
-using System.Text.Json.Serialization;
 using Library;
 using Newtonsoft.Json;
 using Project0.Library.models;
@@ -13,20 +11,20 @@ namespace Projec0.app
         static void Main(string[] args)
         {
 
-            ///<summary>This will load all saved data from Json</summary>
-            string Json = System.IO.File.ReadAllText(@"D:\Git Bash\Git Path\daniel-project0\Inventory1.txt");
-            List<Product> Inventory1 = JsonConvert.DeserializeObject<List<Product>>(Json);
+            ///<summary>This will load all saved data for Inventory1</summary>
+            string filePathInventory1 = @"D:\Git Bash\Git Path\daniel-project0\Inventory1.txt";
+            string loadInventory1 = System.IO.File.ReadAllText(filePathInventory1);
+            List<Product> Inventory1 = JsonConvert.DeserializeObject<List<Product>>(loadInventory1);
+
+            ///<summary>This will load all saved data for customers </summary>
+            string filePathCustomers = @"D:\Git Bash\Git Path\daniel-project0\Customers.txt";
+            string loadCustomers = System.IO.File.ReadAllText(filePathCustomers);
+            List<Customer> customers = JsonConvert.DeserializeObject<List<Customer>>(loadCustomers);
 
             ///<summary>The UI starts with the user name, this will result in the creation of 
             ///a new customer if the name is not already created</summary>
 
-            List<Customer> customers = new List<Customer>
-            {
-                new Customer() { FirstName = "John", LastName = "Smith", FullName = "John Smith"},
-                new Customer() { FirstName = "May", LastName = "Flower", FullName = "May Flower"},
-                new Customer() { FirstName = "Daniel", LastName = "Aasa", FullName = "Daniel Aasa"}
-            };
-
+            
             for (int i = 0; i<= 100; i++)
             {
                 Console.WriteLine("\nAre you a NEW or RETURNING Customer?");
@@ -63,13 +61,6 @@ namespace Projec0.app
             Console.ReadKey(true);
             Console.WriteLine();
 
-           /* List<Product> Inventory1 = new List<Product>
-            {
-                new Product() { PID = 1001, Amount = 54, Name = "1p1", Price = 7 },
-                new Product() { PID = 1002, Amount = 23, Name = "1p2", Price = 9 },
-                new Product() { PID = 1003, Amount = 5, Name = "1p3", Price = 15 }
-            };
-           */
             foreach (Product aProduct in Inventory1)
             {
                 Console.WriteLine(aProduct);
@@ -79,11 +70,15 @@ namespace Projec0.app
             Console.Write("\nPress any key to exit...");
             Console.ReadKey(true);
 
-            new Location { Name = "North", Inventory = Inventory1 };
+            //new Location { Name = "North", Inventory = Inventory1 };
 
-            ///<summary>save all data to txt files</summary>
-            string json = JsonConvert.SerializeObject(Inventory1, Formatting.Indented);
-            System.IO.File.WriteAllText(@"D:\Git Bash\Git Path\daniel-project0\Inventory1.txt", json);
+            ///<summary>save all data for Inventory1 to txt file Inventory1</summary>
+            string saveInventory1 = JsonConvert.SerializeObject(Inventory1, Formatting.Indented);
+            System.IO.File.WriteAllText(filePathInventory1, saveInventory1);
+
+            ///<summary>save all data for Inventory1 to txt file customers</summary>
+            string saveCustomers = JsonConvert.SerializeObject(customers, Formatting.Indented);
+            System.IO.File.WriteAllText(filePathCustomers, saveCustomers);
 
         }
     }

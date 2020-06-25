@@ -1,0 +1,49 @@
+Inventory 1, copy paste to empty file.txt
+//start after this line
+[
+  {
+    "Name": "1p1",
+    "PID": 1001,
+    "Amount": 54,
+    "Price": 7
+  },
+  {
+    "Name": "1p2",
+    "PID": 1002,
+    "Amount": 23,
+    "Price": 9
+  },
+  {
+    "Name": "1p3",
+    "PID": 1003,
+    "Amount": 5,
+    "Price": 15
+  }
+]
+//stop here
+
+Customers, copy paste to empty file.txt
+//start after this line
+[
+  {
+    "FirstName": "John",
+    "LastName": "Smith",
+    "FullName": "John Smith"
+  },
+  {
+    "FirstName": "May",
+    "LastName": "Flower",
+    "FullName": "May Flower"
+  },
+  {
+    "FirstName": "Daniel",
+    "LastName": "Aasa",
+    "FullName": "Daniel Aasa"
+  },
+  {
+    "FirstName": "Mat",
+    "LastName": "Flex",
+    "FullName": "Mat Flex"
+  }
+]
+//stop here
