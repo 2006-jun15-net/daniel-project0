@@ -42,6 +42,7 @@ CREATE TABLE OrderHistory(
 	CONSTRAINT FK_OrderHistory_Location_LocationID FOREIGN KEY (LocationID)
 		REFERENCES Location (LocationID) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 --I could not call Orders Order as intended since it is a keyword
 CREATE TABLE Orders (
 	OrderID INT NOT NULL,
@@ -54,9 +55,51 @@ CREATE TABLE Orders (
 		REFERENCES Product (ProductID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+INSERT INTO Customer (FirstName, LastName) VALUES 
+		('Daniel', 'Aasa'),
+		('Peter', 'Pan'),
+		('Mental', 'Break'),
+		('Alien', 'Mind'),
+		('Heavy', 'Hitter')
+
+INSERT INTO Product (Name, Price) VALUES
+		('Golden Apple', 4),
+		('Bag of Tricks', 6),
+		('Hidden Card', 26),
+		('Sudden Trap', 44),
+		('Bean Bag', 1);
+
+INSERT INTO Location (Name, Address) VALUES
+		('Golden Spot', 'At the end of the rainbow'),
+		('Shop of Dreams', 'Head North, West, South, East'),
+		('Last Stop', 'Go to the End of Time'),
+		('Great Adventure Gift Shop', 'Travel through an epic quest');
+		
+INSERT INTO Inventory (LocationID, ProductID, Amount) VALUES
+		(1,1,34), (1,2,20), (1,3,67), (1,4,82), (1,5,12),
+		(2,1,45), (2,2,22), (2,3,90), (2,5,108),
+		(3,1,31), (3,2,24), (3,4,93), (3,5,8),
+		(4,1,91), (4,3,72), (4,4,18), (4,5,27);
+
+INSERT INTO OrderHistory (CustomerID, LocationID, Date, Time) VALUES
+		(1, 3, '08-12-2020', '13:30'),
+		(3, 4, '06-6-2026', '01:30'),
+		(2, 2, '01-11-1111', '17:30'),
+		(4, 1, '04-12-2420', '12:59'),
+		(5, 3, '09-19-9999', '2:34');
+
+INSERT INTO Orders (OrderID, ProductID, Amount) VALUES
+		(1, 1, 2),(1, 2, 3),(1, 4, 7),(1, 5, 4),
+		(2, 1, 6),(2, 3, 8),(2, 4, 15),(2, 5, 9),
+		(3, 1, 2),(3, 2, 3),(3, 3, 4),(3, 5, 5),
+		(4, 1, 12),(4, 2, 14),(4, 3, 15),(4, 4, 5),(4, 5, 8),
+		(5, 1, 1),(5, 2, 55),(5, 4, 64),(5, 5, 44);
+
+
+--DELETE FROM OrderHistory
+
 --DROP TABLE Customer
---DROP TABLE Inventory
 --DROP TABLE Location
 --DROP TABLE OrderHistory
 --DROP TABLE Product
---Drop Table Order
+--DROP TABLE Orders

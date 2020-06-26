@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DBAccess.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,34 +20,70 @@ namespace Projec0.app
                 .UseSqlServer(connectionString)
                 .Options;
 
-        static void Main(string[] args)
+        public static void AddCustomerToDB()
         {
-            AddSomeData();
-          
-
-        }
-
-            public static void AddSomeData()
-            {
-                Console.WriteLine("Enter a new Customer firstname: ");
-                var firstname = Console.ReadLine();
-                Console.WriteLine("Enter a new Customer lastname: ");
-                var lastname = Console.ReadLine();
+            Console.WriteLine("Enter a new Customer firstname: ");
+            var firstname = Console.ReadLine();
+            Console.WriteLine("Enter a new Customer lastname: ");
+            var lastname = Console.ReadLine();
 
             using var context = new Project01Context(Options);
 
-                var customer = new Customer { FirstName = firstname, LastName = lastname };
-                //context.Add(Customer);
-                context.Customer.Add(customer);
-                //context.Student.Update(student);
+            var customer = new Customer { FirstName = firstname, LastName = lastname };
+            //context.Add(Customer);
+            context.Customer.Add(customer);
+            //context.Student.Update(student);
 
-                context.SaveChanges();
-                    
-                    
-                    
-       
+            context.SaveChanges();
+        }
+
+        public static void DisplayCustomers()
+        {
+            using var context = new Project01Context(Options);
+            List<Customer> customers = context.Customer
+                .ToList();
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"[{customer.CustomerId}] {customer.FirstName} {customer.LastName}");
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
             
-         }
+            
+            for (int i = 0; i <= 100; i++)
+            {
+                Console.WriteLine("\nAre you a NEW or RETURNING Customer?");
+                Console.WriteLine("\n Options: CustomerList('c'), ('n') for new, ('r') for returning: ");
+                var option1 = Console.ReadLine();
+                if (option1 == "r")
+                {
+                    break;
+                }
+                else if (option1 == "n")
+                {
+                    AddCustomerToDB();
+                    break;
+                }
+                else if (option1 == "c")
+                {
+                    DisplayCustomers();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"\n ({i}) incorrect input, please type in r or n");
+
+                }
+                }
+
+
+        }
+
+          
 
 
 
