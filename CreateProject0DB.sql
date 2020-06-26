@@ -1,0 +1,61 @@
+CREATE TABLE Customer(
+	CustomerID INT IDENTITY(1, 1) NOT NULL,
+	FirstName NVARCHAR(200) NOT NULL,
+	LastName NVARCHAR(200) NOT NULL,
+	CONSTRAINT PK_Customer PRIMARY KEY (CustomerID)
+);
+
+CREATE TABLE Location(
+	LocationID INT IDENTITY(1, 1) NOT NULL,
+	Name NVARCHAR(200) NOT NULL,
+	Address NVARCHAR(200) NULL,
+	CONSTRAINT PK_Location PRIMARY KEY (LocationID)
+);
+
+CREATE TABLE Product(
+	ProductID INT IDENTITY(1, 1) NOT NULL,
+	Name NVARCHAR(200) NOT NULL,
+	Price NUMERIC(10,2) NOT NULL,
+	CONSTRAINT PK_Product PRIMARY KEY (ProductID)
+);
+
+CREATE TABLE Inventory(
+	LocationID INT NOT NULL,
+	ProductID INT NOT NULL,
+	Amount INT CHECK (Amount >= 0) NOT NULL,
+	CONSTRAINT PK_Inventory PRIMARY KEY (LocationID, ProductID),
+	CONSTRAINT FK_Inventory_Location_LocationID FOREIGN KEY (LocationID)
+		REFERENCES Location (LocationID) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_Inventory_Product_ProductID FOREIGN KEY (ProductID)
+		REFERENCES Product (ProductID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE OrderHistory(
+	OrderID INT IDENTITY(1, 1) NOT NULL,
+	CustomerID INT NOT NULL,
+	LocationID INT NOT NULL,
+	Date DATE NOT NULL,
+	Time TIME(7) NOT NULL,
+	CONSTRAINT PK_OrderHistory PRIMARY KEY (OrderID), 
+	CONSTRAINT FK_OrderHistory_Customer_CustomerID FOREIGN KEY (CustomerID)
+		REFERENCES Customer (CustomerID) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_OrderHistory_Location_LocationID FOREIGN KEY (LocationID)
+		REFERENCES Location (LocationID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+--I could not call Orders Order as intended since it is a keyword
+CREATE TABLE Orders (
+	OrderID INT NOT NULL,
+	ProductID INT NOT NULL,
+	Amount INT CHECK (Amount >= 0) NOT NULL,
+	CONSTRAINT PK_Order PRIMARY KEY (OrderID, ProductID),
+	CONSTRAINT FK_Order_OrderHistory_OrderID FOREIGN KEY (OrderID)
+		REFERENCES OrderHistory (OrderID) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_Order_Product_ProductID FOREIGN KEY (ProductID)
+		REFERENCES Product (ProductID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--DROP TABLE Customer
+--DROP TABLE Inventory
+--DROP TABLE Location
+--DROP TABLE OrderHistory
+--DROP TABLE Product
