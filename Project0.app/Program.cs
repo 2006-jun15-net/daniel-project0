@@ -1,16 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using Library;
-using Newtonsoft.Json;
-using Project0.Library.models;
+using DBAccess.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Projec0.app
 {
-    class Program
+    public class Program
     {
+        public static readonly ILoggerFactory MyLoggerFactory
+            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+       
+        public static readonly String connectionString = System.IO.File.ReadAllText("C:/Users/james/Desktop/Revature/Project0Connect.txt");
+        
+        public static readonly DbContextOptions<Project01Context> Options = new DbContextOptionsBuilder<Project01Context>()
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseSqlServer(connectionString)
+                .Options;
+
         static void Main(string[] args)
         {
+            AddSomeData();
+          
 
+        }
+
+            public static void AddSomeData()
+            {
+                Console.WriteLine("Enter a new Customer firstname: ");
+                var firstname = Console.ReadLine();
+                Console.WriteLine("Enter a new Customer lastname: ");
+                var lastname = Console.ReadLine();
+
+            using var context = new Project01Context(Options);
+
+                var customer = new Customer { FirstName = firstname, LastName = lastname };
+                //context.Add(Customer);
+                context.Customer.Add(customer);
+                //context.Student.Update(student);
+
+                context.SaveChanges();
+                    
+                    
+                    
+       
+            
+         }
+
+
+
+            /*
             ///<summary>This will load all saved data for Inventory1</summary>
             string filePathInventory1 = @"D:\Git Bash\Git Path\daniel-project0\Inventory1.txt";
             string loadInventory1 = System.IO.File.ReadAllText(filePathInventory1);
@@ -79,8 +118,8 @@ namespace Projec0.app
             ///<summary>save all data for Inventory1 to txt file customers</summary>
             string saveCustomers = JsonConvert.SerializeObject(customers, Formatting.Indented);
             System.IO.File.WriteAllText(filePathCustomers, saveCustomers);
-
-        }
+            */
+        
     }
 }
  

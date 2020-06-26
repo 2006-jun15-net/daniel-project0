@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Project0.Library.models
 {
-    class Location
+    class Inventory
     {
     }
 }

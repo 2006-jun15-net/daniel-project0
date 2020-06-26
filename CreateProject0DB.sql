@@ -59,3 +59,4 @@ CREATE TABLE Orders (
 --DROP TABLE Location
 --DROP TABLE OrderHistory
 --DROP TABLE Product
+--Drop Table Order
