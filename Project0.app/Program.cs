@@ -48,6 +48,20 @@ namespace Projec0.app
             }
         }
 
+        public static void DisplayInventory(int ID2)
+        {
+            using var context = new Project01Context(Options);
+            List<Inventory> inventories = context.Inventory
+                .Include(s => s.Product)
+                .Where(e => e.LocationId == ID2)
+                .ToList();
+
+            foreach (var inventory in inventories)
+            {
+                Console.WriteLine($"Amount: {inventory.Amount} Cost per {inventory.Product.Name} = ${inventory.Product.Price} ");
+            }
+        }
+
         public static void DisplayLocations()
         {
             using var context = new Project01Context(Options);
@@ -67,6 +81,14 @@ namespace Projec0.app
             
             
             return $"{customer.FirstName} {customer.LastName}";
+        }
+        public static string FindLocationName(int ID2)
+        {
+            using var context = new Project01Context(Options);
+            var location = context.Location.Find(ID2);
+
+
+            return $"You have Arrived at {location.Name}";
         }
 
         public static void ChangeCustomerName(int ID)
@@ -88,7 +110,7 @@ namespace Projec0.app
             for (int i = 0; i <= 100; i++)
             {
                 Console.WriteLine("\nSelect From List");
-                Console.WriteLine("\n Options: ('c')CustomerList, ('n')New Customer, ('r')Returning Customer, ('u')Update Customer Name ");
+                Console.WriteLine("\n Options: ('c') CustomerList, ('n') New Customer, ('r') Registered Customer, ('u') Update Customer Name ");
                 Console.Write("Select Options: ");
                 var option1 = Console.ReadLine();
                 if (option1 == "r")
@@ -102,12 +124,16 @@ namespace Projec0.app
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
                     Console.Clear();
+                    Console.WriteLine("\nSelect a destination: ");
+                    DisplayLocations();
+                    Console.Write("Select Destination by ID, ex: '1': ");
                     break;
                 }
                 else if (option1 == "n")
                 {
                     AddCustomerToDB();
-                    break;
+                    Console.Clear();
+                    Console.WriteLine("Customer has been Registered");
                 }
                 else if (option1 == "c")
                 {
@@ -131,13 +157,15 @@ namespace Projec0.app
                 }
                 }
 
-            //for (int i = 0; i <= 100; i++)
-            //{
-                Console.WriteLine("\nSelect a destination: ");
-                DisplayLocations();
-                //break;
+            var ID2 = int.Parse(Console.ReadLine());
 
-            //}
+            for (int i = 0; i <= 100; i++)
+            {
+                Console.WriteLine(FindLocationName(ID2));
+                DisplayInventory(ID2);
+                Console.ReadKey(true);
+                break;
+            }
         }
 
           
