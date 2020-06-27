@@ -74,6 +74,8 @@ INSERT INTO Location (Name, Address) VALUES
 		('Shop of Dreams', 'Head North, West, South, East'),
 		('Last Stop', 'Go to the End of Time'),
 		('Great Adventure Gift Shop', 'Travel through an epic quest');
+
+
 		
 INSERT INTO Inventory (LocationID, ProductID, Amount) VALUES
 		(1,1,34), (1,2,20), (1,3,67), (1,4,82), (1,5,12),
@@ -95,6 +97,12 @@ INSERT INTO Orders (OrderID, ProductID, Amount) VALUES
 		(4, 1, 12),(4, 2, 14),(4, 3, 15),(4, 4, 5),(4, 5, 8),
 		(5, 1, 1),(5, 2, 55),(5, 4, 64),(5, 5, 44);
 
+--UPDATE Location
+--SET Address = 'move to the end of the rainbow'
+--WHERE LocationID = 1;
+
+--SELECT *
+--FROM Location
 
 --DELETE FROM OrderHistory
 

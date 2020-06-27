@@ -4,19 +4,18 @@ using System.Linq;
 using DBAccess.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Projec0.app
 {
     public class Program
     {
-        public static readonly ILoggerFactory MyLoggerFactory
-            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+       // public static readonly ILoggerFactory MyLoggerFactory
+        //    = LoggerFactory.Create(builder => { builder.AddConsole(); });
        
         public static readonly String connectionString = System.IO.File.ReadAllText("C:/Users/james/Desktop/Revature/Project0Connect.txt");
         
         public static readonly DbContextOptions<Project01Context> Options = new DbContextOptionsBuilder<Project01Context>()
-                .UseLoggerFactory(MyLoggerFactory)
+                //.UseLoggerFactory(MyLoggerFactory)
                 .UseSqlServer(connectionString)
                 .Options;
 
@@ -49,6 +48,38 @@ namespace Projec0.app
             }
         }
 
+        public static void DisplayLocations()
+        {
+            using var context = new Project01Context(Options);
+            List<Location> locations = context.Location
+                .ToList();
+
+            foreach (var location in locations)
+            {
+                Console.WriteLine($"[{location.LocationId}] {location.Name}: Simply {location.Address} to reach your destination");
+            }
+        }
+
+        public static string FindCustomerName(int ID)
+        {
+            using var context = new Project01Context(Options);
+            var customer = context.Customer.Find(ID);
+            
+            
+            return $"{customer.FirstName} {customer.LastName}";
+        }
+
+        public static void ChangeCustomerName(int ID)
+        {
+            using var context = new Project01Context(Options);
+            var customer = context.Customer.Find(ID);
+            Console.WriteLine("Enter a new Customer firstname: ");
+            customer.FirstName = Console.ReadLine();
+            Console.WriteLine("Enter a new Customer lastname: ");
+            customer.LastName = Console.ReadLine();
+
+            context.SaveChanges();
+        }
 
         static void Main(string[] args)
         {
@@ -56,11 +87,21 @@ namespace Projec0.app
             
             for (int i = 0; i <= 100; i++)
             {
-                Console.WriteLine("\nAre you a NEW or RETURNING Customer?");
-                Console.WriteLine("\n Options: CustomerList('c'), ('n') for new, ('r') for returning: ");
+                Console.WriteLine("\nSelect From List");
+                Console.WriteLine("\n Options: ('c')CustomerList, ('n')New Customer, ('r')Returning Customer, ('u')Update Customer Name ");
+                Console.Write("Select Options: ");
                 var option1 = Console.ReadLine();
                 if (option1 == "r")
                 {
+                    Console.WriteLine("");
+                    Console.Write("Enter your ID number: ");
+                    int ID = int.Parse(Console.ReadLine());
+                    string name = FindCustomerName(ID);
+                    var date = DateTime.Now;
+                    Console.WriteLine($"\nHello, {name}, on {date:d} at {date:t}!");
+                    Console.WriteLine("Enter any key to Continue: ");
+                    Console.ReadKey(true);
+                    Console.Clear();
                     break;
                 }
                 else if (option1 == "n")
@@ -70,17 +111,33 @@ namespace Projec0.app
                 }
                 else if (option1 == "c")
                 {
+                    Console.Clear();
                     DisplayCustomers();
+                }
+                else if (option1 == "u")
+                {
+                    Console.WriteLine("");
+                    Console.Write("Enter your ID number: ");
+                    int ID = int.Parse(Console.ReadLine());
+                    ChangeCustomerName(ID);
+                    Console.Clear();
+                    Console.WriteLine("Customer Name has been Updated");
                 }
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine($"\n ({i}) incorrect input, please type in r or n");
+                    Console.WriteLine($"\n ({i}) incorrect input, Please: 'Select a letter from Options'");
 
                 }
                 }
 
+            //for (int i = 0; i <= 100; i++)
+            //{
+                Console.WriteLine("\nSelect a destination: ");
+                DisplayLocations();
+                //break;
 
+            //}
         }
 
           
