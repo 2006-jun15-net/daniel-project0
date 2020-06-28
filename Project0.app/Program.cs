@@ -51,30 +51,41 @@ namespace Projec0.app
             context.SaveChanges();
         }
 
-        public static void RemoveFromInventory(int ID2, int productid, int amount)
+        public static int RemoveFromInventory(int ID2, int productid, int amount)
         {
             using var context = new Project01Context(Options);
             var inventory = context.Inventory
             .FirstOrDefault(e => e.LocationId == ID2 && e.ProductId == productid);
             
+            int a = inventory.Amount;
             inventory.Amount -= amount;
 
-            context.Inventory.Update(inventory);
-            if (inventory.Amount < 0)
+            
+            if (inventory.Amount <= 0)
             {
-                //Error
+                Console.WriteLine("there is not enough stock in this store's inventory to fullfill that order");
+                Console.WriteLine($"You have bought out the whole stock of ProductID: [{productid}]");
+                Console.WriteLine("Enter any key to Continue: ");
+                Console.ReadKey(true);
+                Console.Clear();
+                inventory.Amount = 0;
+                context.Inventory.Update(inventory);
+                context.SaveChanges();
+                return a;
             }
             else
             {
+                context.Inventory.Update(inventory);
                 context.SaveChanges();
+                return amount;
             }
             
         }
 
-        public static void AddToOrders(int orderid, int productid, int amount)
+        public static void AddToOrders(int orderid, int productid, int a)
         {
             using var context = new Project01Context(Options);
-            var Order = new Orders { Amount = amount, OrderId = orderid, ProductId = productid };
+            var Order = new Orders { Amount = a, OrderId = orderid, ProductId = productid };
             context.Orders.Add(Order); 
             context.SaveChanges();
         }
@@ -92,7 +103,7 @@ namespace Projec0.app
             var lastname = Console.ReadLine();
             while (string.IsNullOrEmpty(lastname))
             {
-                Console.WriteLine("First Name can't be empty! Input your first name once more");
+                Console.WriteLine("Last Name can't be empty! Input your last name once more");
                 lastname = Console.ReadLine();
             }
             using var context = new Project01Context(Options);
@@ -184,17 +195,23 @@ namespace Projec0.app
             context.SaveChanges();
         }
 
-        public static void DeleteUnusedOrderHistory(int ID)
-        {
-            using var context = new Project01Context(Options);
-            var orderHistory = context.OrderHistory
-            .FirstOrDefault(e => e.OrderId == ID);
-            
+        // currently not in use
+        /* public static void DeleteUnusedOrderHistory(int ID)
+         {
+             using var context = new Project01Context(Options);
+             var orderHistory = context.OrderHistory
+             .FirstOrDefault(e => e.OrderId == ID);
 
-            context.OrderHistory.Remove(orderHistory);
-            context.SaveChanges();
 
-        }
+             context.OrderHistory.Remove(orderHistory);
+             context.SaveChanges();
+
+                //To prevent identity column errors this sql code must be run:
+                //DBCC CHECKIDENT (OrderHistory, RESEED, 1);
+                //DBCC CHECKIDENT (OrderHistory, RESEED);
+
+         }*/ // currently not in use
+
         static void Main(string[] args)
         {
             var CCustomer = new Customer();
@@ -217,6 +234,7 @@ namespace Projec0.app
                         Console.WriteLine("This is not a ID number!");
                         idnumber = Console.ReadLine();
                     }
+                    //requires a second input validation check to make certain that the ID given exists
                    
                     CCustomer.CustomerId = ID;
                     string name = FindCustomerName(ID);
@@ -253,7 +271,8 @@ namespace Projec0.app
                         Console.WriteLine("This is not a ID number!");
                         idnumber = Console.ReadLine();
                     }
-                 
+                    //requires a second input validation check to make certain that the ID given exists
+
                     ChangeCustomerName(ID);
                     Console.Clear();
                     Console.WriteLine("Customer Name has been Updated");
@@ -273,9 +292,8 @@ namespace Projec0.app
                 Console.WriteLine("This is not a ID number!");
                 idnumber2 = Console.ReadLine();
             }
+            //requires a second input validation check to make certain that the ID given exists
 
-            AddToOrderHistory(CCustomer.CustomerId, ID2);
-            int oID = NewOrderID();
 
             for (int i = 0; i <= 100; i++)
             {
@@ -283,14 +301,18 @@ namespace Projec0.app
                 Console.Write($"Welcome {name}, ");
                 Console.WriteLine(FindLocationName(ID2));
                 DisplayInventory(ID2);
-                Console.Write("options: 'p' Place Order, 'x' Exit, 'v' view location OrderHistory, 'y' view your own OrderHistory: ");
+                Console.Write("options: 'p' Place Order, 'x' Exit, 'v' view location Order History, 'y' view your own Order History: ");
                 string options2 = Console.ReadLine();
                 List<Orders> orders = new List<Orders>();
                 if (options2 == "p")
                 {
+                    AddToOrderHistory(CCustomer.CustomerId, ID2);
+                    int oID = NewOrderID();
+                    Console.Clear();
+
                     for (int z = 0; z <= 100; z++)
                     {
-                        Console.Clear();
+                        
                         DisplayInventory(ID2);
                         DisplayCurrentOrder(orders);
                        
@@ -309,6 +331,7 @@ namespace Projec0.app
                                 Console.WriteLine("This is not a ID number!");
                                 idnumber3 = Console.ReadLine();
                             }
+                            //requires a second input validation check to make certain that the ID given exists
 
                             Console.WriteLine("");
                             Console.Write("Select Amount: ");
@@ -328,11 +351,20 @@ namespace Projec0.app
                         {
                             foreach (var order in orders)
                             {
-                                AddToOrders(order.OrderId, order.ProductId, order.Amount);
-                                RemoveFromInventory(ID2, order.ProductId, order.Amount);
+                                int a = RemoveFromInventory(ID2, order.ProductId, order.Amount);
+                                if (a == 0)
+                                {
+
+                                }
+                                else
+                                {
+                                    AddToOrders(order.OrderId, order.ProductId, a);
+                                }
+                                
+                                
                                 
                             }
-                            
+                            Console.WriteLine("your order has been completed, check your order history for more details");
                             break;
                         }
                         else
@@ -345,7 +377,7 @@ namespace Projec0.app
                 }
                 else if (options2 == "x")
                 {
-                    DeleteUnusedOrderHistory(oID);
+                    //DeleteUnusedOrderHistory(oID);
                     //This requires that a sql script is run on DataBase: 
                     //DBCC CHECKIDENT (OrderHistory, RESEED, 1);
                     //DBCC CHECKIDENT (OrderHistory, RESEED);
@@ -354,11 +386,15 @@ namespace Projec0.app
                 }
                 else if (options2 == "v")
                 {
-                    
+                    Console.WriteLine("Enter any key to Continue: ");
+                    Console.ReadKey(true);
+                    Console.Clear();
                 }
                 else if (options2 == "y")
                 {
-                    
+                    Console.WriteLine("Enter any key to Continue: ");
+                    Console.ReadKey(true);
+                    Console.Clear();
                 }
                 else
                 {
