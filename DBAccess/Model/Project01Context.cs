@@ -73,9 +73,15 @@ namespace DBAccess.Model
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
-                entity.Property(e => e.Date).HasColumnType("date");
+                entity.Property(e => e.Date)
+                    .IsRequired()
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.LocationId).HasColumnName("LocationID");
+
+                entity.Property(e => e.Time)
+                    .IsRequired()
+                    .HasMaxLength(200);
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.OrderHistory)

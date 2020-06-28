@@ -29,13 +29,13 @@ CREATE TABLE Inventory(
 	CONSTRAINT FK_Inventory_Product_ProductID FOREIGN KEY (ProductID)
 		REFERENCES Product (ProductID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+--changing Date and time to string since I am unable to figure out how to update from C#
 CREATE TABLE OrderHistory(
 	OrderID INT IDENTITY(1, 1) NOT NULL,
 	CustomerID INT NOT NULL,
 	LocationID INT NOT NULL,
-	Date DATE NOT NULL,
-	Time TIME(7) NOT NULL,
+	Date NVARCHAR(200) NOT NULL,
+	Time NVARCHAR(200) NOT NULL,
 	CONSTRAINT PK_OrderHistory PRIMARY KEY (OrderID), 
 	CONSTRAINT FK_OrderHistory_Customer_CustomerID FOREIGN KEY (CustomerID)
 		REFERENCES Customer (CustomerID) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -70,10 +70,10 @@ INSERT INTO Product (Name, Price) VALUES
 		('Bean Bag', 1);
 
 INSERT INTO Location (Name, Address) VALUES
-		('Golden Spot', 'At the end of the rainbow'),
-		('Shop of Dreams', 'Head North, West, South, East'),
-		('Last Stop', 'Go to the End of Time'),
-		('Great Adventure Gift Shop', 'Travel through an epic quest');
+		('Golden Spot', 'move to the end of the rainbow'),
+		('Shop of Dreams', 'head North, West, South, East'),
+		('Last Stop', 'go to the End of Time'),
+		('Great Adventure Gift Shop', 'travel through an epic quest');
 
 
 		
@@ -88,7 +88,7 @@ INSERT INTO OrderHistory (CustomerID, LocationID, Date, Time) VALUES
 		(3, 4, '06-6-2026', '01:30'),
 		(2, 2, '01-11-1111', '17:30'),
 		(4, 1, '04-12-2420', '12:59'),
-		(5, 3, '09-19-9999', '2:34');
+		(5, 3, '09-19-9999', '02:34');
 
 INSERT INTO Orders (OrderID, ProductID, Amount) VALUES
 		(1, 1, 2),(1, 2, 3),(1, 4, 7),(1, 5, 4),
@@ -111,3 +111,14 @@ INSERT INTO Orders (OrderID, ProductID, Amount) VALUES
 --DROP TABLE OrderHistory
 --DROP TABLE Product
 --DROP TABLE Orders
+--DROP TABLE Inventory
+
+--select * FROM Orders
+
+--SELECT *FROM Inventory
+
+--SELECT *FROM OrderHistory
+
+
+--DELETE FROM OrderHistory
+--WHERE OrderId = 6;

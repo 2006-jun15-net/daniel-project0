@@ -13,8 +13,8 @@ namespace DBAccess.Model
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public int LocationId { get; set; }
-        public DateTime Date { get; set; }
-        public TimeSpan Time { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Location Location { get; set; }
