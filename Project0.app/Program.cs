@@ -83,15 +83,23 @@ namespace Projec0.app
         {
             Console.WriteLine("Enter a new Customer firstname: ");
             var firstname = Console.ReadLine();
+            while (string.IsNullOrEmpty(firstname))
+            {
+                Console.WriteLine("First Name can't be empty! Input your first name once more");
+                firstname = Console.ReadLine();
+            }
             Console.WriteLine("Enter a new Customer lastname: ");
             var lastname = Console.ReadLine();
-
+            while (string.IsNullOrEmpty(lastname))
+            {
+                Console.WriteLine("First Name can't be empty! Input your first name once more");
+                lastname = Console.ReadLine();
+            }
             using var context = new Project01Context(Options);
 
             var customer = new Customer { FirstName = firstname, LastName = lastname };
-            //context.Add(Customer);
+            
             context.Customer.Add(customer);
-            //context.Student.Update(student);
 
             context.SaveChanges();
         }
@@ -157,8 +165,21 @@ namespace Projec0.app
             var customer = context.Customer.Find(ID);
             Console.WriteLine("Enter a new Customer firstname: ");
             customer.FirstName = Console.ReadLine();
+            
+            while (string.IsNullOrEmpty(customer.FirstName))
+            {
+                Console.WriteLine("First Name can't be empty! Input your first name once more");
+                customer.FirstName = Console.ReadLine();
+            }
+
             Console.WriteLine("Enter a new Customer lastname: ");
             customer.LastName = Console.ReadLine();
+            while (string.IsNullOrEmpty(customer.LastName))
+            {
+                Console.WriteLine("Last Name can't be empty! Input your last name once more");
+                customer.LastName = Console.ReadLine();
+            }
+
 
             context.SaveChanges();
         }
@@ -188,7 +209,11 @@ namespace Projec0.app
                 {
                     Console.WriteLine("");
                     Console.Write("Enter your ID number: ");
+
+                    //needs input validation code 1
                     int ID = int.Parse(Console.ReadLine());
+                    //needs input validation code 1
+                   
                     CCustomer.CustomerId = ID;
                     string name = FindCustomerName(ID);
                     var date = DateTime.Now;
@@ -216,7 +241,11 @@ namespace Projec0.app
                 {
                     Console.WriteLine("");
                     Console.Write("Enter your ID number: ");
+                    
+                    //needs input validation code 1
                     int ID = int.Parse(Console.ReadLine());
+                    //needs input validation code 1
+
                     ChangeCustomerName(ID);
                     Console.Clear();
                     Console.WriteLine("Customer Name has been Updated");
@@ -257,10 +286,18 @@ namespace Projec0.app
                         {
                             Console.WriteLine("");
                             Console.Write("Select Product ID: ");
+
+                            //needs input validation code 1
                             int PID = int.Parse(Console.ReadLine());
+                            //needs input validation code 1
+
                             Console.WriteLine("");
                             Console.Write("Select Amount: ");
+
+                            //needs input validation code 1
                             int a = int.Parse(Console.ReadLine());
+                            //needs input validation code 1
+
                             var O = new Orders { ProductId = PID, OrderId = oID, Amount = a };
                             orders.Add(O);
                         }
@@ -286,15 +323,19 @@ namespace Projec0.app
                 else if (options2 == "x")
                 {
                     DeleteUnusedOrderHistory(oID);
+                    //This requires that a sql script is run on DataBase: 
+                    //DBCC CHECKIDENT (OrderHistory, RESEED, 1);
+                    //DBCC CHECKIDENT (OrderHistory, RESEED);
+
                     break;
                 }
                 else if (options2 == "v")
                 {
-                    break;
+                    
                 }
                 else if (options2 == "y")
                 {
-                    break;
+                    
                 }
                 else
                 {

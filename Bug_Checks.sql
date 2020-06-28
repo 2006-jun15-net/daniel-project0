@@ -10,5 +10,5 @@ FROM Orders
 SELECT *
 FROM Inventory
 
-DBCC CHECKIDENT (OrderHistory, RESEED,1);
-DBCC CHECKIDENT ( OrderHistory, RESEED );
+DBCC CHECKIDENT (OrderHistory, RESEED, 1);
+DBCC CHECKIDENT (OrderHistory, RESEED);
