@@ -23,6 +23,7 @@ namespace Projec0.app
 
         public static void DisplayCurrentOrder(List<Orders> orders)
         {
+            Console.WriteLine("");
             Console.WriteLine("Currently in shopping cart:");
             foreach (var order in orders)
             {
@@ -162,6 +163,17 @@ namespace Projec0.app
             context.SaveChanges();
         }
 
+        public static void DeleteUnusedOrderHistory(int ID)
+        {
+            using var context = new Project01Context(Options);
+            var orderHistory = context.OrderHistory
+            .FirstOrDefault(e => e.OrderId == ID);
+            
+
+            context.OrderHistory.Remove(orderHistory);
+            context.SaveChanges();
+
+        }
         static void Main(string[] args)
         {
             var CCustomer = new Customer();
@@ -218,7 +230,9 @@ namespace Projec0.app
                 }
 
             var ID2 = int.Parse(Console.ReadLine());
-            
+            AddToOrderHistory(CCustomer.CustomerId, ID2);
+            int oID = NewOrderID();
+
             for (int i = 0; i <= 100; i++)
             {
                 string name = FindCustomerName(CCustomer.CustomerId);
@@ -235,9 +249,7 @@ namespace Projec0.app
                         Console.Clear();
                         DisplayInventory(ID2);
                         DisplayCurrentOrder(orders);
-                        AddToOrderHistory(CCustomer.CustomerId, ID2);//needs fixing
-                        int oID = NewOrderID();
-                        Console.WriteLine($"Order ID: {oID}");
+                       
 
                         Console.WriteLine("options: 'a' Add to order, 'c' complete order: ");
                         string option3 = Console.ReadLine();
@@ -254,14 +266,11 @@ namespace Projec0.app
                         }
                         else if (option3 == "c")
                         {
-                            
-                            AddToOrderHistory(CCustomer.CustomerId, ID2);//needs fixing
-                            
-                            
                             foreach (var order in orders)
                             {
-                                RemoveFromInventory(ID2, order.ProductId, order.Amount);
                                 AddToOrders(order.OrderId, order.ProductId, order.Amount);
+                                RemoveFromInventory(ID2, order.ProductId, order.Amount);
+                                
                             }
                             
                             break;
@@ -276,6 +285,7 @@ namespace Projec0.app
                 }
                 else if (options2 == "x")
                 {
+                    DeleteUnusedOrderHistory(oID);
                     break;
                 }
                 else if (options2 == "v")
