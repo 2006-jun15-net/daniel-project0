@@ -209,10 +209,14 @@ namespace Projec0.app
                 {
                     Console.WriteLine("");
                     Console.Write("Enter your ID number: ");
-
-                    //needs input validation code 1
-                    int ID = int.Parse(Console.ReadLine());
-                    //needs input validation code 1
+                    
+                    var idnumber = Console.ReadLine();
+                    int ID;
+                    while (!int.TryParse(idnumber, out ID))
+                    {
+                        Console.WriteLine("This is not a ID number!");
+                        idnumber = Console.ReadLine();
+                    }
                    
                     CCustomer.CustomerId = ID;
                     string name = FindCustomerName(ID);
@@ -241,11 +245,15 @@ namespace Projec0.app
                 {
                     Console.WriteLine("");
                     Console.Write("Enter your ID number: ");
-                    
-                    //needs input validation code 1
-                    int ID = int.Parse(Console.ReadLine());
-                    //needs input validation code 1
 
+                    var idnumber = Console.ReadLine();
+                    int ID;
+                    while (!int.TryParse(idnumber, out ID))
+                    {
+                        Console.WriteLine("This is not a ID number!");
+                        idnumber = Console.ReadLine();
+                    }
+                 
                     ChangeCustomerName(ID);
                     Console.Clear();
                     Console.WriteLine("Customer Name has been Updated");
@@ -258,7 +266,14 @@ namespace Projec0.app
                 }
                 }
 
-            var ID2 = int.Parse(Console.ReadLine());
+            var idnumber2 = Console.ReadLine();
+            int ID2;
+            while (!int.TryParse(idnumber2, out ID2))
+            {
+                Console.WriteLine("This is not a ID number!");
+                idnumber2 = Console.ReadLine();
+            }
+
             AddToOrderHistory(CCustomer.CustomerId, ID2);
             int oID = NewOrderID();
 
@@ -287,16 +302,24 @@ namespace Projec0.app
                             Console.WriteLine("");
                             Console.Write("Select Product ID: ");
 
-                            //needs input validation code 1
-                            int PID = int.Parse(Console.ReadLine());
-                            //needs input validation code 1
+                            var idnumber3 = Console.ReadLine();
+                            int PID;
+                            while (!int.TryParse(idnumber3, out PID))
+                            {
+                                Console.WriteLine("This is not a ID number!");
+                                idnumber3 = Console.ReadLine();
+                            }
 
                             Console.WriteLine("");
                             Console.Write("Select Amount: ");
 
-                            //needs input validation code 1
-                            int a = int.Parse(Console.ReadLine());
-                            //needs input validation code 1
+                            var idnumber4 = Console.ReadLine();
+                            int a;
+                            while (!int.TryParse(idnumber4, out a))
+                            {
+                                Console.WriteLine("This is not a number!");
+                                idnumber4 = Console.ReadLine();
+                            }
 
                             var O = new Orders { ProductId = PID, OrderId = oID, Amount = a };
                             orders.Add(O);
