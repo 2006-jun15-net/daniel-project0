@@ -122,3 +122,5 @@ INSERT INTO Orders (OrderID, ProductID, Amount) VALUES
 
 --DELETE FROM OrderHistory
 --WHERE OrderId = 6;
+
+

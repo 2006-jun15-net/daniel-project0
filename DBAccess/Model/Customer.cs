@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DBAccess.Model
 {
     public partial class Customer
     {
+
         public Customer()
         {
             OrderHistory = new HashSet<OrderHistory>();

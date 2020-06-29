@@ -9,14 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.app", "Project0.ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project0.test", "Project0.test\Project0.test.csproj", "{8B7665FF-6B03-467C-9B9A-F9020AFEF58E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project0.save", "Project0.save", "{FD75F053-B602-4D92-8991-D938F0FEAA5E}"
-	ProjectSection(SolutionItems) = preProject
-		Backup.txt = Backup.txt
-		Customers.txt = Customers.txt
-		Inventory1.txt = Inventory1.txt
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBAccess", "DBAccess\DBAccess.csproj", "{0F916427-576C-4BAF-B2E7-763FB75E3DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBAccess", "DBAccess\DBAccess.csproj", "{0F916427-576C-4BAF-B2E7-763FB75E3DB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

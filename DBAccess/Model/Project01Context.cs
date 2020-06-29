@@ -6,6 +6,7 @@ namespace DBAccess.Model
 {
     public partial class Project01Context : DbContext
     {
+
         public Project01Context()
         {
         }

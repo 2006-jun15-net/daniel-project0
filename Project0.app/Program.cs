@@ -7,11 +7,12 @@ using DBAccess.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.CompilerServices;
-
+using Project0.Library.models;
 namespace Projec0.app
 {
     public class Program
     {
+        
         // public static readonly ILoggerFactory MyLoggerFactory
         //    = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
@@ -21,201 +22,6 @@ namespace Projec0.app
                 //.UseLoggerFactory(MyLoggerFactory)
                 .UseSqlServer(connectionString)
                 .Options;
-
-        public static void DisplayCurrentOrder(List<Orders> orders)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Currently in shopping cart:");
-            foreach (var order in orders)
-            {
-                Console.WriteLine($"Item ID: [{order.ProductId}] and amount: {order.Amount}");
-            }
-        }
-        public static int NewOrderID()
-        {
-            using var context = new Project01Context(Options);
-            int orderHistory = context.OrderHistory.Count();
-
-            return orderHistory;
-        }
-
-        private static void AddToOrderHistory(int customerID, int locationID)
-        {
-            using var context = new Project01Context(Options);
-
-            string date = DateTime.UtcNow.ToString("MM-dd-yyyy");
-            string time = DateTime.Now.ToString("HH:mm");
-           
-          
-            var orderHistory = new OrderHistory { CustomerId = customerID, LocationId = locationID, Date = date, Time = time};
-            context.OrderHistory.Add(orderHistory);
-            context.SaveChanges();
-        }
-
-        public static int RemoveFromInventory(int ID2, int productid, int amount)
-        {
-            using var context = new Project01Context(Options);
-            var inventory = context.Inventory
-            .FirstOrDefault(e => e.LocationId == ID2 && e.ProductId == productid);
-            
-            int a = inventory.Amount;
-            inventory.Amount -= amount;
-
-            
-            if (inventory.Amount <= 0)
-            {
-                Console.WriteLine("there is not enough stock in this store's inventory to fullfill that order");
-                Console.WriteLine($"You have bought out the whole stock of ProductID: [{productid}]");
-                Console.WriteLine("Enter any key to Continue: ");
-                Console.ReadKey(true);
-                Console.Clear();
-                inventory.Amount = 0;
-                context.Inventory.Update(inventory);
-                context.SaveChanges();
-                return a;
-            }
-            else
-            {
-                context.Inventory.Update(inventory);
-                context.SaveChanges();
-                return amount;
-            }
-            
-        }
-
-        public static void AddToOrders(int orderid, int productid, int a)
-        {
-            using var context = new Project01Context(Options);
-            var Order = new Orders { Amount = a, OrderId = orderid, ProductId = productid };
-            context.Orders.Add(Order); 
-            context.SaveChanges();
-        }
-
-        public static void AddCustomerToDB()
-        {
-            Console.WriteLine("Enter a new Customer firstname: ");
-            var firstname = Console.ReadLine();
-            while (string.IsNullOrEmpty(firstname))
-            {
-                Console.WriteLine("First Name can't be empty! Input your first name once more");
-                firstname = Console.ReadLine();
-            }
-            Console.WriteLine("Enter a new Customer lastname: ");
-            var lastname = Console.ReadLine();
-            while (string.IsNullOrEmpty(lastname))
-            {
-                Console.WriteLine("Last Name can't be empty! Input your last name once more");
-                lastname = Console.ReadLine();
-            }
-            using var context = new Project01Context(Options);
-
-            var customer = new Customer { FirstName = firstname, LastName = lastname };
-            
-            context.Customer.Add(customer);
-
-            context.SaveChanges();
-        }
-
-        public static void DisplayCustomers()
-        {
-            using var context = new Project01Context(Options);
-            List<Customer> customers = context.Customer
-                .ToList();
-
-            foreach (var customer in customers)
-            {
-                Console.WriteLine($"[{customer.CustomerId}] {customer.FirstName} {customer.LastName}");
-            }
-        }
-
-        public static void DisplayInventory(int ID2)
-        {
-            using var context = new Project01Context(Options);
-            List<Inventory> inventories = context.Inventory
-                .Include(s => s.Product)
-                .Where(e => e.LocationId == ID2)
-                .ToList();
-
-            foreach (var inventory in inventories)
-            {
-                Console.WriteLine($"Product ID: [{inventory.ProductId}] Amount: {inventory.Amount} Cost per {inventory.Product.Name} = ${inventory.Product.Price} ");
-            }
-        }
-
-        public static void DisplayLocations()
-        {
-            using var context = new Project01Context(Options);
-            List<Location> locations = context.Location
-                .ToList();
-
-            foreach (var location in locations)
-            {
-                Console.WriteLine($"[{location.LocationId}] {location.Name}: Simply {location.Address} to reach your destination");
-            }
-        }
-
-        public static string FindCustomerName(int ID)
-        {
-            using var context = new Project01Context(Options);
-            var customer = context.Customer.Find(ID);
-            
-            
-            return $"{customer.FirstName} {customer.LastName}";
-        }
-        public static string FindLocationName(int ID2)
-        {
-            using var context = new Project01Context(Options);
-            var location = context.Location.Find(ID2);
-
-
-            return $"You have Arrived at {location.Name}";
-        }
-
-        public static void DisplayOrderHistoryLocation(int ID2)
-        {
-            new NotImplementedException();
-        }
-        public static void ChangeCustomerName(int ID)
-        {
-            using var context = new Project01Context(Options);
-            var customer = context.Customer.Find(ID);
-            Console.WriteLine("Enter a new Customer firstname: ");
-            customer.FirstName = Console.ReadLine();
-            
-            while (string.IsNullOrEmpty(customer.FirstName))
-            {
-                Console.WriteLine("First Name can't be empty! Input your first name once more");
-                customer.FirstName = Console.ReadLine();
-            }
-
-            Console.WriteLine("Enter a new Customer lastname: ");
-            customer.LastName = Console.ReadLine();
-            while (string.IsNullOrEmpty(customer.LastName))
-            {
-                Console.WriteLine("Last Name can't be empty! Input your last name once more");
-                customer.LastName = Console.ReadLine();
-            }
-
-
-            context.SaveChanges();
-        }
-
-        // currently not in use
-        /* public static void DeleteUnusedOrderHistory(int ID)
-         {
-             using var context = new Project01Context(Options);
-             var orderHistory = context.OrderHistory
-             .FirstOrDefault(e => e.OrderId == ID);
-
-
-             context.OrderHistory.Remove(orderHistory);
-             context.SaveChanges();
-
-                //To prevent identity column errors this sql code must be run:
-                //DBCC CHECKIDENT (OrderHistory, RESEED, 1);
-                //DBCC CHECKIDENT (OrderHistory, RESEED);
-
-         }*/ // currently not in use
 
         static void Main(string[] args)
         {
@@ -242,27 +48,27 @@ namespace Projec0.app
                     //requires a second input validation check to make certain that the ID given exists
                    
                     CCustomer.CustomerId = ID;
-                    string name = FindCustomerName(ID);
+                    string name = CustomerController.FindCustomerName(ID);
                     var date = DateTime.Now;
                     Console.WriteLine($"\nHello, {name}, on {date:d} at {date:t}!");
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
                     Console.Clear();
                     Console.WriteLine("\nSelect a destination: ");
-                    DisplayLocations();
+                    LocationController.DisplayLocations();
                     Console.Write("Select Destination by ID, ex: '1': ");
                     break;
                 }
                 else if (option1 == "n")
                 {
-                    AddCustomerToDB();
+                    CustomerController.AddCustomerToDB();
                     Console.Clear();
                     Console.WriteLine("Customer has been Registered");
                 }
                 else if (option1 == "c")
                 {
                     Console.Clear();
-                    DisplayCustomers();
+                    CustomerController.DisplayCustomers();
                 }
                 else if (option1 == "u")
                 {
@@ -278,7 +84,7 @@ namespace Projec0.app
                     }
                     //requires a second input validation check to make certain that the ID given exists
 
-                    ChangeCustomerName(ID);
+                    CustomerController.ChangeCustomerName(ID);
                     Console.Clear();
                     Console.WriteLine("Customer Name has been Updated");
                 }
@@ -302,24 +108,24 @@ namespace Projec0.app
 
             for (int i = 0; i <= 100; i++)
             {
-                string name = FindCustomerName(CCustomer.CustomerId);
+                string name = CustomerController.FindCustomerName(CCustomer.CustomerId);
                 Console.Write($"Welcome {name}, ");
-                Console.WriteLine(FindLocationName(ID2));
-                DisplayInventory(ID2);
+                Console.WriteLine(LocationController.FindLocationName(ID2));
+                InventoryController.DisplayInventory(ID2);
                 Console.Write("options: 'p' Place Order, 'x' Exit, 'v' view location Order History, 'y' view your own Order History: ");
                 string options2 = Console.ReadLine();
                 List<Orders> orders = new List<Orders>();
                 if (options2 == "p")
                 {
-                    AddToOrderHistory(CCustomer.CustomerId, ID2);
-                    int oID = NewOrderID();
+                    OrderHistoryController.AddToOrderHistory(CCustomer.CustomerId, ID2);
+                    int oID = OrderHistoryController.NewOrderID();
                     Console.Clear();
 
                     for (int z = 0; z <= 100; z++)
                     {
                         
-                        DisplayInventory(ID2);
-                        DisplayCurrentOrder(orders);
+                        InventoryController.DisplayInventory(ID2);
+                        OrdersController.DisplayCurrentOrder(orders);
                        
 
                         Console.WriteLine("options: 'a' Add to order, 'c' complete order: ");
@@ -356,14 +162,14 @@ namespace Projec0.app
                         {
                             foreach (var order in orders)
                             {
-                                int a = RemoveFromInventory(ID2, order.ProductId, order.Amount);
+                                int a = InventoryController.RemoveFromInventory(ID2, order.ProductId, order.Amount);
                                 if (a == 0)
                                 {
 
                                 }
                                 else
                                 {
-                                    AddToOrders(order.OrderId, order.ProductId, a);
+                                    OrdersController.AddToOrders(order.OrderId, order.ProductId, a);
                                 }
                                 
                                 
@@ -391,7 +197,7 @@ namespace Projec0.app
                 }
                 else if (options2 == "v")
                 {
-                    DisplayOrderHistoryLocation(ID2);
+                    OrderHistoryController.DisplayOrderHistoryLocation(ID2);
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
                     Console.Clear();
