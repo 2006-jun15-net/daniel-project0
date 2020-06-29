@@ -6,6 +6,7 @@ using System.Threading;
 using DBAccess.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Projec0.app
 {
@@ -170,6 +171,10 @@ namespace Projec0.app
             return $"You have Arrived at {location.Name}";
         }
 
+        public static void DisplayOrderHistoryLocation(int ID2)
+        {
+            new NotImplementedException();
+        }
         public static void ChangeCustomerName(int ID)
         {
             using var context = new Project01Context(Options);
@@ -386,6 +391,7 @@ namespace Projec0.app
                 }
                 else if (options2 == "v")
                 {
+                    DisplayOrderHistoryLocation(ID2);
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
                     Console.Clear();
