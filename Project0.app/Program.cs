@@ -46,7 +46,7 @@ namespace Projec0.app
                     {
                         Console.WriteLine("This is not a Valid ID number!");
                         idnumber = Console.ReadLine();
-
+                        
                         //check = CustomerController.CustomerList(int.Parse(idnumber));
                     }
                     //requires a second input validation check to make certain that the ID given exists
@@ -229,7 +229,7 @@ namespace Projec0.app
             }
         }
 
-        
+
 
 
 
