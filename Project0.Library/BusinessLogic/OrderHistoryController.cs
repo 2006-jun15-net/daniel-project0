@@ -57,9 +57,29 @@ namespace Project0.Library.models
 
         public static void DisplayOrderHistoryLocation(int ID2)
         {
-            new NotImplementedException();
+            using var context = new Project01Context(Options);
+            var orderHistory = context.OrderHistory
+                .Where(e => e.LocationId == ID2)
+                .ToList();
+
+            foreach(var order in orderHistory)
+            {
+                Console.WriteLine($"Order ID: [{order.OrderId}], Customer ID: [{order.CustomerId}], Date: {order.Date}, Time: {order.Time}");
+            };
         }
 
+        public static void DisplayOrderHistoryCustomer(int ID)
+        {
+            using var context = new Project01Context(Options);
+            var orderHistory = context.OrderHistory
+                .Where(e => e.CustomerId == ID)
+                .ToList();
+
+            foreach (var order in orderHistory)
+            {
+                Console.WriteLine($"Order ID: [{order.OrderId}], Location ID: [{order.LocationId}], Date: {order.Date}, Time: {order.Time}");
+            };
+        }
 
 
 

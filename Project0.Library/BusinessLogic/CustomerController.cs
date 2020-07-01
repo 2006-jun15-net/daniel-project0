@@ -92,7 +92,21 @@ namespace Project0.Library.models
             context.SaveChanges();
         }
 
+        public static bool CustomerList(int ID)
+        {
+            using var context = new Project01Context(Options);
+            List<Customer> customers = context.Customer
+                .ToList();
 
+            foreach (var customer in customers)
+            {
+                if (customer.CustomerId == ID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
 

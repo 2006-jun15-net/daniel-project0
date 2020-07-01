@@ -40,10 +40,14 @@ namespace Projec0.app
                     
                     var idnumber = Console.ReadLine();
                     int ID;
+                    //bool check = false;
+
                     while (!int.TryParse(idnumber, out ID))
                     {
-                        Console.WriteLine("This is not a ID number!");
+                        Console.WriteLine("This is not a Valid ID number!");
                         idnumber = Console.ReadLine();
+
+                        //check = CustomerController.CustomerList(int.Parse(idnumber));
                     }
                     //requires a second input validation check to make certain that the ID given exists
                    
@@ -108,6 +112,7 @@ namespace Projec0.app
 
             for (int i = 0; i <= 100; i++)
             {
+                Console.WriteLine("");
                 string name = CustomerController.FindCustomerName(CCustomer.CustomerId);
                 Console.Write($"Welcome {name}, ");
                 Console.WriteLine(LocationController.FindLocationName(ID2));
@@ -157,6 +162,7 @@ namespace Projec0.app
 
                             var O = new Orders { ProductId = PID, OrderId = oID, Amount = a };
                             orders.Add(O);
+                            Console.Clear();
                         }
                         else if (option3 == "c")
                         {
@@ -176,7 +182,10 @@ namespace Projec0.app
                                 
                             }
                             Console.WriteLine("your order has been completed, check your order history for more details");
-                            break;
+                            z = 200;
+                            Console.WriteLine("Enter any key to Continue: ");
+                            Console.ReadKey(true);
+                            Console.Clear();
                         }
                         else
                         {
@@ -184,7 +193,7 @@ namespace Projec0.app
                             Console.WriteLine($"\n ({z}) incorrect input, Please: 'Select a letter from Options'");
                         }
                     }
-                    break;
+                    //break;
                 }
                 else if (options2 == "x")
                 {
@@ -197,6 +206,7 @@ namespace Projec0.app
                 }
                 else if (options2 == "v")
                 {
+                    Console.WriteLine("");
                     OrderHistoryController.DisplayOrderHistoryLocation(ID2);
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
@@ -204,6 +214,8 @@ namespace Projec0.app
                 }
                 else if (options2 == "y")
                 {
+                    Console.WriteLine("");
+                    OrderHistoryController.DisplayOrderHistoryCustomer(CCustomer.CustomerId);
                     Console.WriteLine("Enter any key to Continue: ");
                     Console.ReadKey(true);
                     Console.Clear();
@@ -213,7 +225,7 @@ namespace Projec0.app
                     Console.Clear();
                     Console.WriteLine($"\n ({i}) incorrect input, Please: 'Select a letter from Options'");
                 }
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
             }
         }
 
