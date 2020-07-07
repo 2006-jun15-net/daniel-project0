@@ -35,24 +35,33 @@ namespace Projec0.app
                 var option1 = Console.ReadLine();
                 if (option1 == "r")
                 {
-                    Console.WriteLine("");
-                    Console.Write("Enter your ID number: ");
-                    
-                    var idnumber = Console.ReadLine();
+                    string name = "";
                     int ID;
-                    //bool check = false;
 
-                    while (!int.TryParse(idnumber, out ID))
-                    {
-                        Console.WriteLine("This is not a Valid ID number!");
-                        idnumber = Console.ReadLine();
-                        
-                        //check = CustomerController.CustomerList(int.Parse(idnumber));
+                    while (string.IsNullOrEmpty(name)) {
+
+                        Console.WriteLine();
+                        Console.Write("Enter your ID number: ");
+
+                        var inputId = Console.ReadLine ();
+
+                        while (!int.TryParse (inputId, out ID)) {
+
+                            Console.WriteLine("This is not a Valid ID number!");
+                            inputId = Console.ReadLine();
+                        }
+
+                        name = CustomerController.FindCustomerName (ID);
+
+                        if (!string.IsNullOrEmpty (name)) {
+
+                            CCustomer.CustomerId = ID;
+                            break;
+                        }
+
+                        Console.WriteLine ($"Customer with ID #{ID} does not exist");
                     }
-                    //requires a second input validation check to make certain that the ID given exists
-                   
-                    CCustomer.CustomerId = ID;
-                    string name = CustomerController.FindCustomerName(ID);
+
                     var date = DateTime.Now;
                     Console.WriteLine($"\nHello, {name}, on {date:d} at {date:t}!");
                     Console.WriteLine("Enter any key to Continue: ");
