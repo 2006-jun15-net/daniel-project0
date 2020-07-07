@@ -12,7 +12,7 @@ namespace Project0.Library.models
 
     public static class CustomerController
     {
-        public static readonly String connectionString = System.IO.File.ReadAllText("C:/Users/james/Desktop/Revature/Project0Connect.txt");
+        public static readonly string connectionString = System.IO.File.ReadAllText("C:/Users/james/Desktop/Revature/Project0Connect.txt");
 
         public static readonly DbContextOptions<Project01Context> Options = new DbContextOptionsBuilder<Project01Context>()
             .UseSqlServer(connectionString)
@@ -61,6 +61,9 @@ namespace Project0.Library.models
             using var context = new Project01Context(Options);
             var customer = context.Customer.Find(ID);
 
+            if (customer == null) {
+                return null;
+            }
 
             return $"{customer.FirstName} {customer.LastName}";
         }
